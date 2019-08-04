@@ -20,7 +20,7 @@ login_url = 'https://www.placement.iitbhu.ac.in/accounts/login/'
 
 client = requests.session()
 login = client.get(login_url)
-login = bs(login.content, "lxml")
+login = bs(login.content, "html.parser")
 
 payload = {
 	"login": "rahul.kumar.cse15@itbhu.ac.in", 
@@ -35,7 +35,7 @@ result = client.post(
 )
 
 forum = client.get("https://www.placement.iitbhu.ac.in/forum/c/notice-board/2019-20/")
-soup = bs(forum.content, "lxml")
+soup = bs(forum.content, "html.parser")
 
 
 #load last message delivred to users
@@ -175,7 +175,7 @@ def gen_msg(post):
 	# string += '
 
 	post = client.get("https://www.placement.iitbhu.ac.in/" + post['href'])
-	post = bs(post.content, "lxml")
+	post = bs(post.content, "html.parser")
 
 	post = post.find("td", "post-content")
 	# print post.contents
@@ -241,7 +241,7 @@ def main():
 		
 		try:
 			forum = requests.get("https://www.placement.iitbhu.ac.in/forum/c/notice-board/2019-20/")
-			soup = bs(forum.content, "lxml")
+			soup = bs(forum.content, "html.parser")
 
 			if len(posts) == 0 or soup.td.a['href'] != posts[0]['href']:
 				on_new()
