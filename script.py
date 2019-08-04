@@ -40,7 +40,7 @@ soup = bs(forum.content, "html.parser")
 
 #load last message delivred to users
 try:
-	with open("posts.bin", "rb") as f:
+	with open("posts", "rb") as f:
 		posts = cPickle.load(f);
 except Exception as e:
 	print e
@@ -69,7 +69,7 @@ updated = soup.findAll('td','topic-last-post')
 bot = telepot.Bot('940251504:AAG19YYQYtkiEOCrW0fZETvmYQSskElARcc')
 
 # chat_ids = {RAHUL_ID}
-with open("IDs.bin", "rb") as f:
+with open("IDs", "rb") as f:
 	chat_ids = cPickle.load(f)
 	print '#################No of IDs loaded: ', len(chat_ids) 
 
@@ -86,13 +86,14 @@ def add_cmd(chat_id, msg, *argv):
 	
 	if chat_id not in chat_ids:
 		chat_ids.add(chat_id)
-		with open("IDs.bin", "wb") as f:
+		with open("IDs", "wb") as f:
 			cPickle.dump(chat_ids, f);
 
-		with open("users.csv", "a") as f:
+		with open("users.txt", "a") as f:
 			writer = csv.writer(f)
 			writer.writerow(msg['from'].values())
-
+		
+		bot.sendMessage(RAHUL_ID, "Added:\n" + msg['from'].values())
 		bot.sendMessage(chat_id, "Added your ID for notifications. Note that it may take upto 5 minutes to get update of a recent post")
 
 	else:
@@ -101,7 +102,7 @@ def add_cmd(chat_id, msg, *argv):
 def remove_cmd(chat_id, *argv):
 	try:
 		chat_ids.remove(chat_id)
-		with open("IDs.bin", "wb") as f:
+		with open("IDs", "wb") as f:
 			cPickle.dump(chat_ids, f);
 		bot.sendMessage(chat_id, "Removed your ID")
 	except KeyError:
@@ -227,7 +228,7 @@ def on_new():
 		bot.sendMessage(chat_id, text=msg, parse_mode="HTML")
 
 	#save last message delivred to users
-	with open("posts.bin", "wb") as f:
+	with open("posts", "wb") as f:
 		cPickle.dump(posts, f);
 
 
