@@ -166,7 +166,7 @@ print ('Listening ...')
 # for chat_id in chat_ids:
 # 	bot.sendMessage(chat_id, text='Server started', parse_mode="HTML")
 
-bot.sendMessage(chat_id, text='Server started', parse_mode="HTML")
+bot.sendMessage(RAHUL_ID, text='Server started', parse_mode="HTML")
 
 
 def gen_msg(post):
