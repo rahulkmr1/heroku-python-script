@@ -93,9 +93,8 @@ def add_cmd(chat_id, msg, *argv):
 			writer = csv.writer(f)
 			writer.writerow(msg['from'].values())
 		
-		bot.sendMessage(RAHUL_ID, "Added:\n" + msg['from'].values())
 		bot.sendMessage(chat_id, "Added your ID for notifications. Note that it may take upto 5 minutes to get update of a recent post")
-
+		bot.sendMessage(RAHUL_ID, "Added:\n" + str(msg['from'].values()))
 	else:
 		bot.sendMessage(chat_id, "You are already added")
 
